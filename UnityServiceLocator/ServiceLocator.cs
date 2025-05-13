@@ -10,10 +10,11 @@ namespace UnityServiceLocator
         public static bool IsRegistered<T>() => _services.ContainsKey(typeof(T).Name);
 
         // Register service instance as type
-        public static void Register(object serviceInstance)
+        public static void Register<T>(T serviceInstance)
         {
-            var type = serviceInstance.GetType();
+            var type = typeof(T) == typeof(object) ? serviceInstance.GetType() : typeof(T);
             var key = type.Name;
+            
             if (_services.ContainsKey(key))
             {
                 throw new Exception($"[Service Locator] Service \"{key}\" has already registered.");

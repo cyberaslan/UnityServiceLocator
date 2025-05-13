@@ -2,9 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Diagnostics;
 using UnityServiceLocator.ExampleServices;
-using Object = UnityEngine.Object;
 
 namespace UnityServiceLocator
 {
@@ -105,7 +103,6 @@ namespace UnityServiceLocator
                 {
                     var container = new GameObject();
                     container.name = $"{ServiceType.Name}";
-                    //container.name = $"[{ServiceType.Name}]";
                     ServiceInstance = container.AddComponent(ServiceType);
                     DontDestroyOnLoad(container);
                 }
