@@ -1,3 +1,6 @@
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -115,6 +118,7 @@ namespace UnityServiceLocator
             }
         }
 #if UNITY_EDITOR
+        // If you have disabled domain reload for Unity Editor isLaunched value wont reset without this fix
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
         static void EditorDomainReloadReset()
         {
