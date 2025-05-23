@@ -29,7 +29,7 @@ namespace UnityServiceLocator
             }
 
             IsLaunched = true;
-            
+
             RegisterServices();
             InitServices();
         }
@@ -61,14 +61,14 @@ namespace UnityServiceLocator
                 try
                 {
                     if (order.ServiceInstance is not IInitializable initableService) continue;
-                    
+
                     await initableService.Init();
 
                     if (!initableService.DontAutoInit)
                     {
                         initableService.FinishInit();
                     }
-                    
+
                     while (order.WaitUntilReady && !initableService.IsReady)
                     {
                         await Task.Delay(100); // repace with UniTask for WebGL
@@ -86,7 +86,7 @@ namespace UnityServiceLocator
             public readonly Type ServiceType;
             public readonly bool WaitUntilReady;
             public object ServiceInstance { get; private set; }
-            public ServiceExecutionStage(Type serviceType, bool waitUntilReady=false)
+            public ServiceExecutionStage(Type serviceType, bool waitUntilReady = false)
             {
                 ServiceType = serviceType;
                 WaitUntilReady = waitUntilReady;
@@ -98,8 +98,8 @@ namespace UnityServiceLocator
                 {
                     throw new Exception($"[App Entry] Service {ServiceType} has already instanced.");
                 }
-            
-                if ( ServiceType.IsSubclassOf(typeof(MonoBehaviour)))
+
+                if (ServiceType.IsSubclassOf(typeof(MonoBehaviour)))
                 {
                     var container = new GameObject();
                     container.name = $"{ServiceType.Name}";
@@ -114,7 +114,13 @@ namespace UnityServiceLocator
                 return ServiceInstance;
             }
         }
+#if UNITY_EDITOR
+        [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.SubsystemRegistration)]
+        static void EditorDomainReloadReset()
+        {
+            IsLaunched = false;
+        }
+#endif
+    }
 
-    }   
-    
 }
