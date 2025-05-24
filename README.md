@@ -1,4 +1,4 @@
-# Unity Service Locator
+# Unity Service Locator with EntryPoint
 ## How to use
 1. Add UnityServiceLocator to project
 2. Add AppEntry prefab to scene
